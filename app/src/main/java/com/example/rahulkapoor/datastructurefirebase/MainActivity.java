@@ -18,17 +18,30 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
 
-        //create a new user;
-        User user = new User("rahul253@gmail.com", "rahul kapoor");
+        //adding a nested data structure in firebase;
 
-        //create a new college object;
-        College college = new College(101, "chitkara university", "punjab");
+        int userId = 1;
+        String username = "rahul253";
+        String email = "rahul@gmail.com";
+        int collegeId = 101;
+        int hotCount = 5;
+        int dislikeCount = 2;
+
+        //create a new user;
+        User user = new User(userId, username, email, collegeId, hotCount, dislikeCount);
 
         //push generates a unique key for every user;
 
-        myRef.child("Users").push().setValue(user);
+        myRef.child("Users").child(String.valueOf(userId)).setValue(user);
 
-        myRef.child("Colleges").push().setValue(college);
+        //the user details are set; now we just handle markedusers list;
+
+        //102 user will be picked from list ;
+        MarkedUsers markedUsers = new MarkedUsers(102, 1);//marked hot;
+
+        user.markedUsersList.add(markedUsers);
+
+        myRef.child("Users").child(String.valueOf(userId)).child("MarkedUsers").child("102").setValue(markedUsers);
 
     }
 }
